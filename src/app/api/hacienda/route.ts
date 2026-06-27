@@ -30,11 +30,12 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ found: false }, { status: 200 });
     }
 
-    // La API devuelve: "APELLIDO1 APELLIDO2 NOMBRE(S)"
+    // La API devuelve: "NOMBRE(S) APELLIDO1 APELLIDO2"
+    // Los últimos 2 tokens son los apellidos, el resto es el nombre
     const parts: string[] = raw.nombre.trim().split(/\s+/);
-    const primer_apellido = parts[0] ?? "";
-    const segundo_apellido = parts.length >= 3 ? parts[1] : "";
-    const nombre = parts.slice(parts.length >= 3 ? 2 : 1).join(" ");
+    const segundo_apellido = parts.length >= 2 ? (parts[parts.length - 1] ?? "") : "";
+    const primer_apellido = parts.length >= 2 ? (parts[parts.length - 2] ?? "") : (parts[0] ?? "");
+    const nombre = parts.slice(0, Math.max(parts.length - 2, 1)).join(" ");
 
     const data = { found: true, nombre, primer_apellido, segundo_apellido };
     cache.set(cedula, { data, ts: Date.now() });
