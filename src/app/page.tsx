@@ -11,9 +11,16 @@ export default function HomePage() {
       <main className="mx-auto max-w-4xl px-6 py-16">
         {/* Hero */}
         <div className="mb-16 space-y-4">
-          <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
-            Escuela Manuela Santa María
-          </p>
+          <div className="flex items-center gap-3">
+            <img
+              src="https://res.cloudinary.com/dcwxslhjf/image/upload/v1782579289/LogoManuelaNuevo_zlrwq7.png"
+              alt="Escuela Manuela Santa María"
+              className="h-10 w-auto object-contain"
+            />
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
+              Escuela Manuela Santa María
+            </p>
+          </div>
           <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             Sistema de Lecciones Acumuladas
           </h1>

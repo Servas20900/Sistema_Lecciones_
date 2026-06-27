@@ -11,7 +11,10 @@ function getDirector() { return process.env.DIRECTOR_EMAIL!; }
 function baseHtml(title: string, body: string) {
   return `<!DOCTYPE html><html><body style="font-family:Inter,sans-serif;background:#f9f9f8;margin:0;padding:32px">
 <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:8px;border:1px solid #e9e9e7;padding:40px">
-  <p style="font-size:13px;color:#9b9a97;margin:0 0 24px">Escuela Manuela Santa Mar&iacute;a</p>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid #e9e9e7">
+    <img src="https://res.cloudinary.com/dcwxslhjf/image/upload/v1782579289/LogoManuelaNuevo_zlrwq7.png" alt="Escuela Manuela Santa María" style="height:36px;width:auto;object-fit:contain" />
+    <p style="font-size:13px;color:#9b9a97;margin:0">Escuela Manuela Santa Mar&iacute;a</p>
+  </div>
   <h1 style="font-size:20px;font-weight:600;color:#1a1a1a;margin:0 0 24px">${title}</h1>
   ${body}
   <p style="font-size:12px;color:#9b9a97;margin:32px 0 0;border-top:1px solid #e9e9e7;padding-top:16px">

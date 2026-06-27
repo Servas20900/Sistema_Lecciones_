@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { BookOpen, LayoutDashboard, ClipboardList, History, LogOut, Download } from "lucide-react";
+import { LayoutDashboard, ClipboardList, History, LogOut, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -25,8 +25,12 @@ export function AdminNav() {
 
   return (
     <aside className="flex h-screen w-56 shrink-0 flex-col border-r border-border bg-background sticky top-0">
-      <div className="flex h-14 items-center gap-2 border-b border-border px-4">
-        <BookOpen className="h-4 w-4 text-primary" />
+      <div className="flex h-14 items-center gap-2.5 border-b border-border px-4">
+        <img
+          src="https://res.cloudinary.com/dcwxslhjf/image/upload/v1782579288/LogoCircle_l4hiqu.png"
+          alt="Logo"
+          className="h-7 w-7 rounded-full object-cover"
+        />
         <span className="text-sm font-semibold">Administración</span>
       </div>
 

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { BookOpen, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -40,10 +40,12 @@ export default function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-muted/30 px-6">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <div className="mb-3 flex justify-center">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-              <BookOpen className="h-5 w-5 text-primary-foreground" />
-            </div>
+          <div className="mb-4 flex justify-center">
+            <img
+              src="https://res.cloudinary.com/dcwxslhjf/image/upload/v1782579289/LogoManuelaNuevo_zlrwq7.png"
+              alt="Escuela Manuela Santa María"
+              className="h-20 w-auto object-contain"
+            />
           </div>
           <h1 className="text-xl font-semibold">Panel de administración</h1>
           <p className="mt-1 text-sm text-muted-foreground">Escuela Manuela Santa María</p>

@@ -63,8 +63,13 @@ export default function RebajarPage() {
       <div className="min-h-screen bg-background">
         <PublicNav />
         <div className="mx-auto max-w-xl px-6 py-20 text-center">
-          <div className="mb-4 flex justify-center">
-            <CheckCircle className="h-12 w-12 text-emerald-500" />
+          <div className="mb-5 flex flex-col items-center gap-3">
+            <img
+              src="https://res.cloudinary.com/dcwxslhjf/image/upload/v1782579289/LogoManuelaNuevo_zlrwq7.png"
+              alt="Escuela Manuela Santa María"
+              className="h-12 w-auto object-contain opacity-80"
+            />
+            <CheckCircle className="h-10 w-10 text-emerald-500" />
           </div>
           <h1 className="mb-2 text-2xl font-semibold">Solicitud enviada</h1>
           <p className="mb-6 text-muted-foreground">
