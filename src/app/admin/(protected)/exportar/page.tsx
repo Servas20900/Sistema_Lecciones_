@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState } from "react";
 import * as XLSX from "xlsx";
 import { Button } from "@/components/ui/button";
@@ -39,12 +39,12 @@ export default function ExportarPage() {
 
       const wb = XLSX.utils.book_new();
 
-      // --- Hoja resumen general ---
+      // Hoja resumen general
       const summaryRows = [
-        ["Resumen de saldos â€” Escuela Manuela Santa MarÃ­a"],
+        ["Resumen de saldos — Escuela Manuela Santa María"],
         [`Generado: ${new Date().toLocaleString("es-CR")}`],
         [],
-        ["CÃ©dula", "Nombre completo", "Correo", "Acumuladas", "Usadas", "Disponibles"],
+        ["Cédula", "Nombre completo", "Correo", "Acumuladas", "Usadas", "Disponibles"],
         ...teachers.map((t) => [
           t.cedula,
           fullName(t),
@@ -58,16 +58,15 @@ export default function ExportarPage() {
       styleSheet(wsSummary, summaryRows);
       XLSX.utils.book_append_sheet(wb, wsSummary, "Resumen");
 
-      // --- Una hoja por docente ---
+      // Una hoja por docente
       for (const teacher of teachers) {
         const teacherAccums = accumulations.filter((a) => a.teacher_id === teacher.id);
         const teacherUsages = usages.filter((u) => u.teacher_id === teacher.id);
 
         const rows: (string | number | null)[][] = [];
 
-        // Encabezado del docente
         rows.push([`Docente: ${fullName(teacher)}`]);
-        rows.push([`CÃ©dula: ${teacher.cedula}    Correo: ${teacher.correo}`]);
+        rows.push([`Cédula: ${teacher.cedula}    Correo: ${teacher.correo}`]);
         rows.push([
           `Lecciones acumuladas: ${teacher.lecciones_acumuladas}`,
           "",
@@ -77,17 +76,10 @@ export default function ExportarPage() {
         ]);
         rows.push([]);
 
-        // SecciÃ³n acumulaciones
         rows.push(["ACUMULACIONES"]);
         rows.push([
-          "Fecha acumulada",
-          "Materia",
-          "Cantidad",
-          "Horarios",
-          "Detalle",
-          "Estado",
-          "Fecha decisiÃ³n",
-          "Comentario directora",
+          "Fecha acumulada", "Materia", "Cantidad", "Horarios",
+          "Detalle", "Estado", "Fecha decisión", "Comentario directora",
         ]);
 
         if (teacherAccums.length === 0) {
@@ -99,27 +91,19 @@ export default function ExportarPage() {
               a.materia,
               a.cantidad_lecciones,
               a.lecciones.join(", "),
-              a.detalle || "â€”",
+              a.detalle || "—",
               ESTADO_LABEL[a.estado] ?? a.estado,
-              a.fecha_decision ? formatDateTime(a.fecha_decision) : "â€”",
-              a.comentario_admin || "â€”",
+              a.fecha_decision ? formatDateTime(a.fecha_decision) : "—",
+              a.comentario_admin || "—",
             ]);
           }
         }
 
         rows.push([]);
-
-        // SecciÃ³n rebajos
         rows.push(["REBAJOS"]);
         rows.push([
-          "Fecha propuesta",
-          "Hora salida",
-          "Lecciones usadas",
-          "Motivo",
-          "Detalle",
-          "Estado",
-          "Fecha decisiÃ³n",
-          "Comentario directora",
+          "Fecha propuesta", "Hora salida", "Lecciones usadas", "Motivo",
+          "Detalle", "Estado", "Fecha decisión", "Comentario directora",
         ]);
 
         if (teacherUsages.length === 0) {
@@ -131,10 +115,10 @@ export default function ExportarPage() {
               u.hora_salida,
               u.lecciones_a_usar,
               u.motivo,
-              u.detalle || "â€”",
+              u.detalle || "—",
               ESTADO_LABEL[u.estado] ?? u.estado,
-              u.fecha_decision ? formatDateTime(u.fecha_decision) : "â€”",
-              u.comentario_admin || "â€”",
+              u.fecha_decision ? formatDateTime(u.fecha_decision) : "—",
+              u.comentario_admin || "—",
             ]);
           }
         }
@@ -142,7 +126,6 @@ export default function ExportarPage() {
         const ws = XLSX.utils.aoa_to_sheet(rows);
         styleSheet(ws, rows);
 
-        // Nombre de hoja: apellido + nombre (mÃ¡x 31 chars, sin caracteres invÃ¡lidos)
         const sheetName = `${teacher.primer_apellido} ${teacher.nombre}`
           .replace(/[\\/:*?[\]]/g, "")
           .slice(0, 31);
@@ -150,7 +133,6 @@ export default function ExportarPage() {
         XLSX.utils.book_append_sheet(wb, ws, sheetName);
       }
 
-      // Descargar
       const date = new Date().toISOString().split("T")[0];
       XLSX.writeFile(wb, `lecciones_acumuladas_${date}.xlsx`);
       setLastExport(new Date());
@@ -176,10 +158,10 @@ export default function ExportarPage() {
             <FileSpreadsheet className="h-5 w-5 text-muted-foreground" />
           </div>
           <div>
-            <p className="font-medium text-foreground">ExportaciÃ³n completa (.xlsx)</p>
+            <p className="font-medium text-foreground">Exportación completa (.xlsx)</p>
             <p className="mt-0.5 text-sm text-muted-foreground">
               Incluye todas las acumulaciones y rebajos de todos los docentes.
-              Una hoja por docente con nombre y cÃ©dula como encabezado, mÃ¡s una
+              Una hoja por docente con nombre y cédula como encabezado, más una
               hoja resumen con los saldos actuales.
             </p>
           </div>
@@ -190,7 +172,7 @@ export default function ExportarPage() {
             "Hoja \"Resumen\": saldo disponible de todos los docentes",
             "Una hoja por docente con su historial completo",
             "Secciones de acumulaciones y rebajos separadas",
-            "Estados, fechas de decisiÃ³n y comentarios incluidos",
+            "Estados, fechas de decisión y comentarios incluidos",
           ].map((item) => (
             <li key={item} className="flex items-center gap-2">
               <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/50 shrink-0" />
@@ -209,7 +191,7 @@ export default function ExportarPage() {
           <Alert variant="success">
             <CheckCircle className="h-4 w-4" />
             <AlertDescription>
-              Archivo descargado correctamente el{" "}
+              Archivo descargado el{" "}
               {lastExport.toLocaleString("es-CR", {
                 day: "2-digit",
                 month: "long",
@@ -232,7 +214,6 @@ export default function ExportarPage() {
   );
 }
 
-/** Aplica ancho mÃ­nimo de columna basado en el contenido */
 function styleSheet(ws: XLSX.WorkSheet, rows: (string | number | null)[][]) {
   const colWidths: number[] = [];
   for (const row of rows) {
@@ -243,4 +224,3 @@ function styleSheet(ws: XLSX.WorkSheet, rows: (string | number | null)[][]) {
   }
   ws["!cols"] = colWidths.map((w) => ({ wch: w }));
 }
-

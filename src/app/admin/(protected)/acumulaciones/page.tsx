@@ -1,6 +1,5 @@
-﻿"use client";
+"use client";
 import { useState, useEffect, useCallback } from "react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -59,7 +58,7 @@ export default function AcumulacionesPendientes() {
           {lastUpdate && (
             <p className="text-xs text-muted-foreground">
               {lastUpdate.toLocaleTimeString("es-CR", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
-              {" Â· "}prÃ³x. actualizaciÃ³n 20 s
+              {" · "}próx. actualización 20 s
             </p>
           )}
         </div>
@@ -69,7 +68,7 @@ export default function AcumulacionesPendientes() {
         <div className="relative flex-1 max-w-xs">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Buscar por nombre o cÃ©dula..."
+            placeholder="Buscar por nombre o cédula..."
             className="pl-9"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -84,7 +83,7 @@ export default function AcumulacionesPendientes() {
       ) : filtered.length === 0 ? (
         <div className="py-12 text-center">
           <p className="text-sm text-muted-foreground">
-            {search ? "Sin resultados para la bÃºsqueda." : "No hay solicitudes pendientes."}
+            {search ? "Sin resultados para la búsqueda." : "No hay solicitudes pendientes."}
           </p>
         </div>
       ) : (
@@ -126,26 +125,25 @@ export default function AcumulacionesPendientes() {
         </div>
       )}
 
-      {/* Detail dialog */}
       <Dialog open={!!selectedDetail} onOpenChange={() => setSelectedDetail(null)}>
         <DialogContent className="max-w-md">
           <DialogHeader><DialogTitle>Detalle de solicitud</DialogTitle></DialogHeader>
           {selectedDetail && (
             <div className="space-y-3 text-sm">
               <Row label="Docente" value={fullName(selectedDetail.teachers)} />
-              <Row label="CÃ©dula" value={selectedDetail.teachers.cedula} />
+              <Row label="Cédula" value={selectedDetail.teachers.cedula} />
               <Row label="Correo" value={selectedDetail.teachers.correo} />
               <Row label="Materia" value={selectedDetail.materia} />
               <Row label="Fecha acumulada" value={formatDate(selectedDetail.fecha_acumulada)} />
-              <Row label="Lecciones" value={`${selectedDetail.cantidad_lecciones} lecciÃ³n(es)`} />
+              <Row label="Lecciones" value={`${selectedDetail.cantidad_lecciones} lección(es)`} />
               <Row label="Horarios" value={selectedDetail.lecciones.join(", ")} />
-              <Row label="Observaciones" value={selectedDetail.detalle || "â€”"} />
+              <Row label="Observaciones" value={selectedDetail.detalle || "—"} />
               <div className="pt-2 flex gap-2">
                 <Button
                   className="flex-1"
                   onClick={() => { setSelectedDetail(null); setDecideTarget(selectedDetail); }}
                 >
-                  Tomar decisiÃ³n
+                  Tomar decisión
                 </Button>
               </div>
             </div>
@@ -153,7 +151,6 @@ export default function AcumulacionesPendientes() {
         </DialogContent>
       </Dialog>
 
-      {/* Decide dialog */}
       {decideTarget && (
         <DecideDialog
           open={!!decideTarget}
@@ -176,4 +173,3 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
     </div>
   );
 }
-

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -51,7 +51,7 @@ export default function RebajosPendientes() {
           {lastUpdate && (
             <p className="text-xs text-muted-foreground">
               {lastUpdate.toLocaleTimeString("es-CR", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
-              {" Â· "}prÃ³x. actualizaciÃ³n 20 s
+              {" · "}próx. actualización 20 s
             </p>
           )}
         </div>
@@ -59,7 +59,7 @@ export default function RebajosPendientes() {
 
       <div className="mb-4 relative max-w-xs">
         <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-        <Input placeholder="Buscar por nombre o cÃ©dula..." className="pl-9" value={search} onChange={(e) => setSearch(e.target.value)} />
+        <Input placeholder="Buscar por nombre o cédula..." className="pl-9" value={search} onChange={(e) => setSearch(e.target.value)} />
       </div>
 
       {loading ? (
@@ -117,16 +117,16 @@ export default function RebajosPendientes() {
           {selectedDetail && (
             <div className="space-y-3 text-sm">
               <Row label="Docente" value={fullName(selectedDetail.teachers)} />
-              <Row label="CÃ©dula" value={selectedDetail.teachers.cedula} />
+              <Row label="Cédula" value={selectedDetail.teachers.cedula} />
               <Row label="Correo" value={selectedDetail.teachers.correo} />
               <Row label="Fecha propuesta" value={formatDate(selectedDetail.fecha_rebajo_propuesta)} />
               <Row label="Hora de salida" value={selectedDetail.hora_salida} />
-              <Row label="Lecciones a usar" value={`${selectedDetail.lecciones_a_usar} lecciÃ³n(es)`} />
+              <Row label="Lecciones a usar" value={`${selectedDetail.lecciones_a_usar} lección(es)`} />
               <Row label="Motivo" value={selectedDetail.motivo} />
               {selectedDetail.detalle && <Row label="Detalle" value={selectedDetail.detalle} />}
               <div className="pt-2">
                 <Button className="w-full" onClick={() => { setSelectedDetail(null); setDecideTarget(selectedDetail); }}>
-                  Tomar decisiÃ³n
+                  Tomar decisión
                 </Button>
               </div>
             </div>
@@ -156,4 +156,3 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
     </div>
   );
 }
-

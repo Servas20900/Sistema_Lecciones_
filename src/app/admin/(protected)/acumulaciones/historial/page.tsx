@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useEffect, useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -28,7 +28,6 @@ export default function HistorialAcumulaciones() {
   const fetchData = useCallback(async () => {
     const res = await fetch("/api/admin/accumulations");
     const json = await res.json();
-    // Only show decided (not pending)
     setData((json.data ?? []).filter((r: AugmentedRequest) => r.estado !== "pendiente"));
     setLoading(false);
   }, []);
@@ -79,7 +78,7 @@ export default function HistorialAcumulaciones() {
                 <th className="px-4 py-2.5 text-left font-medium">Fecha acumulada</th>
                 <th className="px-4 py-2.5 text-left font-medium">Lecciones</th>
                 <th className="px-4 py-2.5 text-left font-medium">Estado</th>
-                <th className="px-4 py-2.5 text-left font-medium">Fecha decisiÃ³n</th>
+                <th className="px-4 py-2.5 text-left font-medium">Fecha decisión</th>
                 <th className="px-4 py-2.5 text-left font-medium"></th>
               </tr>
             </thead>
@@ -95,7 +94,7 @@ export default function HistorialAcumulaciones() {
                   <td className="px-4 py-3">{r.cantidad_lecciones}</td>
                   <td className="px-4 py-3">{stateBadge(r.estado)}</td>
                   <td className="px-4 py-3 text-xs text-muted-foreground">
-                    {r.fecha_decision ? formatDateTime(r.fecha_decision) : "â€”"}
+                    {r.fecha_decision ? formatDateTime(r.fecha_decision) : "—"}
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex gap-1">
@@ -114,20 +113,20 @@ export default function HistorialAcumulaciones() {
 
       <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
         <DialogContent className="max-w-md">
-          <DialogHeader><DialogTitle>Detalle de acumulaciÃ³n</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>Detalle de acumulación</DialogTitle></DialogHeader>
           {selected && (
             <div className="space-y-3 text-sm">
               <Row label="Docente" value={fullName(selected.teachers)} />
-              <Row label="CÃ©dula" value={selected.teachers.cedula} />
+              <Row label="Cédula" value={selected.teachers.cedula} />
               <Row label="Correo" value={selected.teachers.correo} />
               <Row label="Materia" value={selected.materia} />
               <Row label="Fecha acumulada" value={formatDate(selected.fecha_acumulada)} />
-              <Row label="Lecciones" value={`${selected.cantidad_lecciones} lecciÃ³n(es)`} />
+              <Row label="Lecciones" value={`${selected.cantidad_lecciones} lección(es)`} />
               <Row label="Horarios" value={selected.lecciones.join(", ")} />
-              <Row label="Observaciones" value={selected.detalle || "â€”"} />
+              <Row label="Observaciones" value={selected.detalle || "—"} />
               <Row label="Estado" value={stateBadge(selected.estado)} />
               {selected.fecha_decision && (
-                <Row label="Fecha decisiÃ³n" value={formatDateTime(selected.fecha_decision)} />
+                <Row label="Fecha decisión" value={formatDateTime(selected.fecha_decision)} />
               )}
               <Row label="Comentario" value={selected.comentario_admin || "Sin comentario."} />
             </div>
@@ -159,4 +158,3 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
     </div>
   );
 }
-
