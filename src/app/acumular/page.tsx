@@ -106,7 +106,7 @@ export default function AcumularPage() {
   return (
     <div className="min-h-screen bg-background">
       <PublicNav />
-      <main className="mx-auto max-w-2xl px-6 py-10">
+      <main className="mx-auto max-w-2xl px-4 py-6 sm:px-6 sm:py-10">
         <div className="mb-8">
           <h1 className="text-2xl font-semibold tracking-tight">Registrar acumulación de lecciones</h1>
           <p className="mt-1 text-sm text-muted-foreground">

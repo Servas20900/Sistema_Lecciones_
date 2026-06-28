@@ -8,9 +8,9 @@ export default function HomePage() {
     <div className="min-h-screen bg-background">
       <PublicNav />
 
-      <main className="mx-auto max-w-4xl px-6 py-16">
+      <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-16">
         {/* Hero */}
-        <div className="mb-16 space-y-4">
+        <div className="mb-10 space-y-4 sm:mb-16">
           <div className="flex items-center gap-3">
             <img
               src="https://res.cloudinary.com/dcwxslhjf/image/upload/v1782579289/LogoManuelaNuevo_zlrwq7.png"

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -42,7 +42,7 @@ export default function HistorialRebajos() {
   });
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-8">
       <div className="mb-6">
         <h1 className="text-2xl font-semibold tracking-tight">Historial de rebajos</h1>
         <p className="mt-1 text-sm text-muted-foreground">Rebajos ya procesados.</p>
@@ -78,7 +78,7 @@ export default function HistorialRebajos() {
                 <th className="px-4 py-2.5 text-left font-medium">Hora salida</th>
                 <th className="px-4 py-2.5 text-left font-medium">Lecciones</th>
                 <th className="px-4 py-2.5 text-left font-medium">Estado</th>
-                <th className="px-4 py-2.5 text-left font-medium">Fecha decisión</th>
+                <th className="px-4 py-2.5 text-left font-medium">Fecha decisiÃ³n</th>
                 <th className="px-4 py-2.5 text-left font-medium"></th>
               </tr>
             </thead>
@@ -94,7 +94,7 @@ export default function HistorialRebajos() {
                   <td className="px-4 py-3">{r.lecciones_a_usar}</td>
                   <td className="px-4 py-3">{stateBadge(r.estado)}</td>
                   <td className="px-4 py-3 text-xs text-muted-foreground">
-                    {r.fecha_decision ? formatDateTime(r.fecha_decision) : "—"}
+                    {r.fecha_decision ? formatDateTime(r.fecha_decision) : "â€”"}
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex gap-1">
@@ -117,14 +117,14 @@ export default function HistorialRebajos() {
           {selected && (
             <div className="space-y-3 text-sm">
               <Row label="Docente" value={fullName(selected.teachers)} />
-              <Row label="Cédula" value={selected.teachers.cedula} />
+              <Row label="CÃ©dula" value={selected.teachers.cedula} />
               <Row label="Fecha propuesta" value={formatDate(selected.fecha_rebajo_propuesta)} />
               <Row label="Hora de salida" value={selected.hora_salida} />
-              <Row label="Lecciones" value={`${selected.lecciones_a_usar} lección(es)`} />
+              <Row label="Lecciones" value={`${selected.lecciones_a_usar} lecciÃ³n(es)`} />
               <Row label="Motivo" value={selected.motivo} />
               {selected.detalle && <Row label="Detalle" value={selected.detalle} />}
               <Row label="Estado" value={stateBadge(selected.estado)} />
-              {selected.fecha_decision && <Row label="Fecha decisión" value={formatDateTime(selected.fecha_decision)} />}
+              {selected.fecha_decision && <Row label="Fecha decisiÃ³n" value={formatDateTime(selected.fecha_decision)} />}
               <Row label="Comentario" value={selected.comentario_admin || "Sin comentario."} />
             </div>
           )}
@@ -155,3 +155,4 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
     </div>
   );
 }
+

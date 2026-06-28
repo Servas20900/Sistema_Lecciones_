@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { ArrowRight, ClipboardList, Loader2, RefreshCw } from "lucide-react";
@@ -40,12 +40,12 @@ export default function AdminInicio() {
   }, [fetchCounts]);
 
   return (
-    <div className="p-8 max-w-3xl">
+    <div className="p-4 sm:p-8 max-w-3xl">
       <div className="mb-8 flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Solicitudes pendientes de revisión.
+            Solicitudes pendientes de revisiÃ³n.
           </p>
         </div>
         <div className="flex flex-col items-end gap-1">
@@ -56,7 +56,7 @@ export default function AdminInicio() {
           {lastUpdate && (
             <p className="text-xs text-muted-foreground">
               Actualizado {lastUpdate.toLocaleTimeString("es-CR", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
-              {" · "}próxima actualización en 20 s
+              {" Â· "}prÃ³xima actualizaciÃ³n en 20 s
             </p>
           )}
         </div>
@@ -74,7 +74,7 @@ export default function AdminInicio() {
               label: "Acumulaciones pendientes",
               count: counts?.acumulaciones ?? 0,
               href: "/admin/acumulaciones",
-              description: "Solicitudes de acumulación sin revisar",
+              description: "Solicitudes de acumulaciÃ³n sin revisar",
             },
             {
               label: "Rebajos pendientes",
@@ -94,7 +94,7 @@ export default function AdminInicio() {
               </div>
               <p className="text-3xl font-bold text-foreground">
                 {count === 0 ? (
-                  <span className="text-muted-foreground">—</span>
+                  <span className="text-muted-foreground">â€”</span>
                 ) : (
                   <span className={count > 0 ? "text-amber-600" : ""}>{count}</span>
                 )}
@@ -108,3 +108,4 @@ export default function AdminInicio() {
     </div>
   );
 }
+

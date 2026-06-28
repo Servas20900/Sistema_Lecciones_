@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -43,7 +43,7 @@ export default function AcumulacionesPendientes() {
   });
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-8">
       <div className="mb-6 flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Acumulaciones pendientes</h1>
@@ -59,7 +59,7 @@ export default function AcumulacionesPendientes() {
           {lastUpdate && (
             <p className="text-xs text-muted-foreground">
               {lastUpdate.toLocaleTimeString("es-CR", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
-              {" · "}próx. actualización 20 s
+              {" Â· "}prÃ³x. actualizaciÃ³n 20 s
             </p>
           )}
         </div>
@@ -69,7 +69,7 @@ export default function AcumulacionesPendientes() {
         <div className="relative flex-1 max-w-xs">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Buscar por nombre o cédula..."
+            placeholder="Buscar por nombre o cÃ©dula..."
             className="pl-9"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -84,7 +84,7 @@ export default function AcumulacionesPendientes() {
       ) : filtered.length === 0 ? (
         <div className="py-12 text-center">
           <p className="text-sm text-muted-foreground">
-            {search ? "Sin resultados para la búsqueda." : "No hay solicitudes pendientes."}
+            {search ? "Sin resultados para la bÃºsqueda." : "No hay solicitudes pendientes."}
           </p>
         </div>
       ) : (
@@ -133,19 +133,19 @@ export default function AcumulacionesPendientes() {
           {selectedDetail && (
             <div className="space-y-3 text-sm">
               <Row label="Docente" value={fullName(selectedDetail.teachers)} />
-              <Row label="Cédula" value={selectedDetail.teachers.cedula} />
+              <Row label="CÃ©dula" value={selectedDetail.teachers.cedula} />
               <Row label="Correo" value={selectedDetail.teachers.correo} />
               <Row label="Materia" value={selectedDetail.materia} />
               <Row label="Fecha acumulada" value={formatDate(selectedDetail.fecha_acumulada)} />
-              <Row label="Lecciones" value={`${selectedDetail.cantidad_lecciones} lección(es)`} />
+              <Row label="Lecciones" value={`${selectedDetail.cantidad_lecciones} lecciÃ³n(es)`} />
               <Row label="Horarios" value={selectedDetail.lecciones.join(", ")} />
-              <Row label="Observaciones" value={selectedDetail.detalle || "—"} />
+              <Row label="Observaciones" value={selectedDetail.detalle || "â€”"} />
               <div className="pt-2 flex gap-2">
                 <Button
                   className="flex-1"
                   onClick={() => { setSelectedDetail(null); setDecideTarget(selectedDetail); }}
                 >
-                  Tomar decisión
+                  Tomar decisiÃ³n
                 </Button>
               </div>
             </div>
@@ -176,3 +176,4 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
     </div>
   );
 }
+
