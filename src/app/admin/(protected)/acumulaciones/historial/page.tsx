@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -112,7 +112,7 @@ export default function HistorialAcumulaciones() {
       )}
 
       <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md w-[95vw]">
           <DialogHeader><DialogTitle>Detalle de acumulación</DialogTitle></DialogHeader>
           {selected && (
             <div className="space-y-3 text-sm">
@@ -158,3 +158,4 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
     </div>
   );
 }
+

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import { PublicNav } from "@/components/ui/public-nav";
 import { Button } from "@/components/ui/button";
@@ -241,7 +241,7 @@ export default function ConsultaPage() {
 
       {/* Accumulation detail dialog */}
       <Dialog open={!!selectedAccum} onOpenChange={() => setSelectedAccum(null)}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md w-[95vw]">
           <DialogHeader>
             <DialogTitle>Detalle de acumulación</DialogTitle>
           </DialogHeader>
@@ -267,7 +267,7 @@ export default function ConsultaPage() {
 
       {/* Usage detail dialog */}
       <Dialog open={!!selectedUsage} onOpenChange={() => setSelectedUsage(null)}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md w-[95vw]">
           <DialogHeader>
             <DialogTitle>Detalle de rebajo</DialogTitle>
           </DialogHeader>
@@ -302,3 +302,4 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
     </div>
   );
 }
+
