@@ -70,8 +70,12 @@ export const usageSchema = teacherFieldsSchema.extend({
   fecha_rebajo_propuesta: z
     .string()
     .refine(
-      (d) => new Date(d + "T12:00:00") > new Date(),
-      "La fecha propuesta no puede ser pasada o hoy."
+      (d) => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return new Date(d + "T00:00:00") >= today;
+      },
+      "La fecha propuesta no puede ser en el pasado."
     )
     .refine((d) => !isWeekend(d), "No puede caer en fin de semana."),
   hora_salida: z
