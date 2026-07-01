@@ -34,29 +34,33 @@ export async function middleware(req: NextRequest) {
 
   if (isTeacherPage || isLoginPage) {
     let response = NextResponse.next({ request: req });
+    let user = null;
 
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll() {
-            return req.cookies.getAll();
+    try {
+      const supabase = createServerClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        {
+          cookies: {
+            getAll() {
+              return req.cookies.getAll();
+            },
+            setAll(cookiesToSet) {
+              cookiesToSet.forEach(({ name, value }) => req.cookies.set(name, value));
+              response = NextResponse.next({ request: req });
+              cookiesToSet.forEach(({ name, value, options }) =>
+                response.cookies.set(name, value, options)
+              );
+            },
           },
-          setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value }) => req.cookies.set(name, value));
-            response = NextResponse.next({ request: req });
-            cookiesToSet.forEach(({ name, value, options }) =>
-              response.cookies.set(name, value, options)
-            );
-          },
-        },
-      }
-    );
+        }
+      );
 
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+      const { data } = await supabase.auth.getUser();
+      user = data.user;
+    } catch {
+      // Si Supabase falla (env vars faltantes, red), tratamos como no autenticado.
+    }
 
     if (isTeacherPage && !user) {
       return NextResponse.redirect(new URL("/login", req.url));
