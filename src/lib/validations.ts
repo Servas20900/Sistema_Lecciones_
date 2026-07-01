@@ -7,36 +7,17 @@ const isWeekend = (dateStr: string) => {
   return day === 0 || day === 6;
 };
 
-export const teacherFieldsSchema = z.object({
-  cedula: z
-    .string()
-    .regex(/^\d{9}$/, "La cédula debe tener exactamente 9 dígitos."),
-  nombre: z
-    .string()
-    .min(2, "El nombre debe tener al menos 2 caracteres.")
-    .regex(/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/, "El nombre solo puede contener letras."),
-  primer_apellido: z
-    .string()
-    .min(2, "El primer apellido debe tener al menos 2 caracteres.")
-    .regex(/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/, "El primer apellido solo puede contener letras."),
-  segundo_apellido: z
-    .string()
-    .regex(/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]*$/, "El segundo apellido solo puede contener letras."),
-  correo: z
-    .string()
-    .email("Ingrese un correo válido.")
-    .refine(
-      (v) => v === "sebasmendeza09@gmail.com" || v.endsWith("@mep.go.cr"),
-      "El correo debe terminar en @mep.go.cr."
-    ),
-});
-
-export const accumulationSchema = teacherFieldsSchema.extend({
+export const accumulationSchema = z.object({
   fecha_acumulada: z
     .string()
-    .refine((d) => new Date(d + "T12:00:00") <= new Date(), {
-      message: "La fecha no puede ser futura.",
-    })
+    .refine(
+      (d) => {
+        const today = new Date();
+        today.setHours(23, 59, 59, 999);
+        return new Date(d + "T00:00:00") <= today;
+      },
+      { message: "La fecha no puede ser futura." }
+    )
     .refine((d) => !isWeekend(d), {
       message: "La fecha no puede caer en fin de semana.",
     }),
@@ -66,7 +47,7 @@ export const accumulationSchema = teacherFieldsSchema.extend({
     ),
 });
 
-export const usageSchema = teacherFieldsSchema.extend({
+export const usageSchema = z.object({
   fecha_rebajo_propuesta: z
     .string()
     .refine(

@@ -65,7 +65,7 @@ export async function sendAccumulationConfirmationToTeacher(teacher: Teacher, re
 
   return getResend().emails.send({
     from: getFrom(),
-    to: teacher.correo,
+    to: teacher.correo!,
     subject: "Recibimos su solicitud de acumulacion",
     html: baseHtml("Solicitud de acumulacion recibida", body),
   });
@@ -77,7 +77,7 @@ export async function sendAccumulationNotificationToDirector(teacher: Teacher, r
     ${table(
       row("Docente", fullName(teacher)) +
       row("C&eacute;dula", teacher.cedula) +
-      row("Correo", teacher.correo) +
+      row("Correo", teacher.correo ?? "—") +
       row("Fecha acumulada", formatDate(req.fecha_acumulada)) +
       row("Materia", req.materia) +
       row("Cantidad", `${req.cantidad_lecciones} lecci&oacute;n(es)`) +
@@ -107,7 +107,7 @@ export async function sendUsageConfirmationToTeacher(teacher: Teacher, req: Usag
 
   return getResend().emails.send({
     from: getFrom(),
-    to: teacher.correo,
+    to: teacher.correo!,
     subject: "Recibimos su solicitud de rebajo",
     html: baseHtml("Solicitud de rebajo recibida", body),
   });
@@ -119,7 +119,7 @@ export async function sendUsageNotificationToDirector(teacher: Teacher, req: Usa
     ${table(
       row("Docente", fullName(teacher)) +
       row("C&eacute;dula", teacher.cedula) +
-      row("Correo", teacher.correo) +
+      row("Correo", teacher.correo ?? "—") +
       row("Fecha propuesta", formatDate(req.fecha_rebajo_propuesta)) +
       row("Hora de salida", req.hora_salida) +
       row("Lecciones a usar", `${req.lecciones_a_usar} lecci&oacute;n(es)`) +
@@ -159,7 +159,7 @@ export async function sendDecisionToTeacher(
 
   return getResend().emails.send({
     from: getFrom(),
-    to: teacher.correo,
+    to: teacher.correo!,
     subject,
     html: baseHtml(`Su solicitud de ${type} fue ${estado}`, body),
   });

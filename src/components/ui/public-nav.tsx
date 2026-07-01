@@ -1,19 +1,35 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
+import { Menu, X, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const links = [
   { href: "/acumular", label: "Acumular" },
   { href: "/rebajar", label: "Rebajar" },
-  { href: "/consulta", label: "Consultar" },
+  { href: "/mis-lecciones", label: "Mis lecciones" },
+  { href: "/perfil", label: "Mi perfil" },
 ];
 
 export function PublicNav() {
   const [open, setOpen] = useState(false);
+  const [authed, setAuthed] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((res) => setAuthed(res.ok))
+      .catch(() => setAuthed(false));
+  }, [pathname]);
+
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    setAuthed(false);
+    router.push("/login");
+    router.refresh();
+  };
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
@@ -46,6 +62,14 @@ export function PublicNav() {
               {label}
             </Link>
           ))}
+          {authed && (
+            <button
+              onClick={handleLogout}
+              className="ml-1 flex items-center gap-1.5 rounded-md px-3 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+            >
+              <LogOut className="h-3.5 w-3.5" /> Salir
+            </button>
+          )}
         </nav>
 
         {/* Mobile hamburger */}
@@ -74,6 +98,14 @@ export function PublicNav() {
               {label}
             </Link>
           ))}
+          {authed && (
+            <button
+              onClick={handleLogout}
+              className="flex w-full items-center gap-1.5 rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent"
+            >
+              <LogOut className="h-3.5 w-3.5" /> Salir
+            </button>
+          )}
         </div>
       )}
     </header>

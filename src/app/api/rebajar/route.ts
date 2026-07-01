@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabase } from "@/lib/supabase";
-import { upsertTeacher } from "@/lib/teacher";
+import { getTeacherSession } from "@/lib/teacher-auth";
 import { usageSchema } from "@/lib/validations";
 import {
   sendUsageConfirmationToTeacher,
@@ -8,6 +8,11 @@ import {
 } from "@/lib/emails";
 
 export async function POST(req: NextRequest) {
+  const teacher = await getTeacherSession();
+  if (!teacher) {
+    return NextResponse.json({ error: "No autenticado" }, { status: 401 });
+  }
+
   let body: unknown;
   try {
     body = await req.json();
@@ -20,28 +25,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ errors: parsed.error.flatten().fieldErrors }, { status: 422 });
   }
 
-  const { cedula, nombre, primer_apellido, segundo_apellido, correo, ...reqData } = parsed.data;
-
-  const { teacher, error: teacherError } = await upsertTeacher({
-    cedula,
-    nombre,
-    primer_apellido,
-    segundo_apellido: segundo_apellido ?? "",
-    correo,
-  });
-
-  if (teacherError || !teacher) {
-    console.error("Teacher error:", teacherError);
-    return NextResponse.json({ error: "Error al guardar datos del docente" }, { status: 500 });
-  }
-
+  const reqData = parsed.data;
   const db = getSupabase();
 
   // Verificar saldo
   const { data: balance } = await db
     .from("teacher_balances")
     .select("saldo_disponible")
-    .eq("cedula", cedula)
+    .eq("cedula", teacher.cedula)
     .single();
 
   const saldo = balance?.saldo_disponible ?? 0;

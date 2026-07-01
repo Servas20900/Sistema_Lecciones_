@@ -9,7 +9,9 @@ export interface Teacher {
   nombre: string;
   primer_apellido: string;
   segundo_apellido: string;
-  correo: string;
+  correo: string | null;
+  auth_user_id: string | null;
+  activated_at: string | null;
   created_at: string;
 }
 

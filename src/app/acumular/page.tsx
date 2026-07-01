@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PublicNav } from "@/components/ui/public-nav";
-import { CedulaFields } from "@/components/forms/cedula-field";
+import { ProfileBanner, useTeacherProfile } from "@/components/forms/profile-banner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,15 +18,11 @@ import { cn } from "@/lib/utils";
 export default function AcumularPage() {
   const [submitted, setSubmitted] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
+  const { teacher } = useTeacherProfile();
 
   const form = useForm<AccumulationInput>({
     resolver: zodResolver(accumulationSchema),
     defaultValues: {
-      cedula: "",
-      nombre: "",
-      primer_apellido: "",
-      segundo_apellido: "",
-      correo: "",
       fecha_acumulada: "",
       materia: undefined,
       cantidad_lecciones: undefined,
@@ -125,9 +121,8 @@ export default function AcumularPage() {
           <section className="space-y-4">
             <div className="border-b border-border pb-2">
               <h2 className="text-sm font-semibold text-foreground">Datos personales</h2>
-              <p className="text-xs text-muted-foreground">Ingrese su cédula para autocompletar su información.</p>
             </div>
-            <CedulaFields form={form} />
+            <ProfileBanner teacher={teacher} />
           </section>
 
           {/* Section: Accumulation detail */}

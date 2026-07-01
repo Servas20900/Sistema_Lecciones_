@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabase } from "@/lib/supabase";
-import { upsertTeacher } from "@/lib/teacher";
+import { getTeacherSession } from "@/lib/teacher-auth";
 import { accumulationSchema } from "@/lib/validations";
 import {
   sendAccumulationConfirmationToTeacher,
@@ -8,6 +8,11 @@ import {
 } from "@/lib/emails";
 
 export async function POST(req: NextRequest) {
+  const teacher = await getTeacherSession();
+  if (!teacher) {
+    return NextResponse.json({ error: "No autenticado" }, { status: 401 });
+  }
+
   let body: unknown;
   try {
     body = await req.json();
@@ -20,26 +25,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ errors: parsed.error.flatten().fieldErrors }, { status: 422 });
   }
 
-  const { cedula, nombre, primer_apellido, segundo_apellido, correo, ...reqData } = parsed.data;
+  const reqData = parsed.data;
 
   if (reqData.lecciones.length > reqData.cantidad_lecciones) {
     return NextResponse.json(
       { errors: { lecciones: ["Ha seleccionado más horarios que la cantidad indicada."] } },
       { status: 422 }
     );
-  }
-
-  const { teacher, error: teacherError } = await upsertTeacher({
-    cedula,
-    nombre,
-    primer_apellido,
-    segundo_apellido: segundo_apellido ?? "",
-    correo,
-  });
-
-  if (teacherError || !teacher) {
-    console.error("Teacher error:", teacherError);
-    return NextResponse.json({ error: "Error al guardar datos del docente" }, { status: 500 });
   }
 
   const db = getSupabase();

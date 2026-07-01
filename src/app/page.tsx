@@ -38,7 +38,7 @@ export default function HomePage() {
               <Link href="/rebajar">Solicitar rebajo</Link>
             </Button>
             <Button asChild variant="ghost">
-              <Link href="/consulta">Consultar saldo</Link>
+              <Link href="/mis-lecciones">Mis lecciones</Link>
             </Button>
           </div>
         </div>
@@ -108,10 +108,10 @@ export default function HomePage() {
               </p>
             </Link>
             <Link
-              href="/consulta"
+              href="/mis-lecciones"
               className="group rounded-lg border border-border p-5 transition-colors hover:bg-accent"
             >
-              <p className="font-medium text-foreground">Consultar saldo</p>
+              <p className="font-medium text-foreground">Mis lecciones</p>
               <p className="mt-1 text-sm text-muted-foreground">
                 Vea su historial y lecciones disponibles.
               </p>

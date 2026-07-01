@@ -1,27 +1,23 @@
-﻿"use client";
-import { useState } from "react";
+"use client";
+import { useState, useEffect } from "react";
 import { PublicNav } from "@/components/ui/public-nav";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Loader2, Search } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { formatDate, formatDateTime, fullName } from "@/lib/utils";
 import type { AccumulationRequest, UsageRequest, TeacherBalance } from "@/lib/supabase";
 import type { SubmissionState } from "@/lib/supabase";
 
-type ConsultaResult = {
-  found: boolean;
-  teacher?: TeacherBalance;
-  accumulations?: AccumulationRequest[];
-  usages?: UsageRequest[];
+type MisLeccionesResult = {
+  teacher: TeacherBalance;
+  accumulations: AccumulationRequest[];
+  usages: UsageRequest[];
 };
 
 function stateBadge(estado: SubmissionState) {
@@ -30,33 +26,20 @@ function stateBadge(estado: SubmissionState) {
   return <Badge variant={v}>{labels[v]}</Badge>;
 }
 
-export default function ConsultaPage() {
-  const [cedula, setCedula] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<ConsultaResult | null>(null);
-  const [error, setError] = useState<string | null>(null);
+export default function MisLeccionesPage() {
+  const [loading, setLoading] = useState(true);
+  const [result, setResult] = useState<MisLeccionesResult | null>(null);
   const [selectedAccum, setSelectedAccum] = useState<AccumulationRequest | null>(null);
   const [selectedUsage, setSelectedUsage] = useState<UsageRequest | null>(null);
   const [filterAccum, setFilterAccum] = useState<string>("all");
   const [filterUsage, setFilterUsage] = useState<string>("all");
 
-  const handleConsulta = async () => {
-    if (!/^\d{9}$/.test(cedula)) {
-      setError("Ingrese una cédula de 9 dígitos.");
-      return;
-    }
-    setError(null);
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/consulta?cedula=${cedula}`);
-      const data = await res.json();
-      setResult(data);
-    } catch {
-      setError("Error de conexión. Intente nuevamente.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    fetch("/api/mis-lecciones")
+      .then((res) => res.json())
+      .then(setResult)
+      .finally(() => setLoading(false));
+  }, []);
 
   const filteredAccums = result?.accumulations?.filter(
     (a) => filterAccum === "all" || a.estado === filterAccum
@@ -70,49 +53,17 @@ export default function ConsultaPage() {
       <PublicNav />
       <main className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-10">
         <div className="mb-8">
-          <h1 className="text-2xl font-semibold tracking-tight">Consultar saldo y solicitudes</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Mis lecciones</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Ingrese su número de cédula para ver su historial y lecciones disponibles.
+            Su saldo de lecciones disponibles y el historial de solicitudes.
           </p>
         </div>
 
-        {/* Search */}
-        <div className="mb-8 flex gap-3">
-          <div className="flex-1 space-y-1.5">
-            <Label htmlFor="cedula-consulta">Número de cédula</Label>
-            <Input
-              id="cedula-consulta"
-              placeholder="123456789"
-              maxLength={9}
-              value={cedula}
-              onChange={(e) => setCedula(e.target.value.replace(/\D/g, ""))}
-              onKeyDown={(e) => e.key === "Enter" && handleConsulta()}
-            />
+        {loading ? (
+          <div className="flex items-center gap-2 text-muted-foreground py-12 justify-center">
+            <Loader2 className="h-4 w-4 animate-spin" /> Cargando...
           </div>
-          <div className="flex items-end">
-            <Button onClick={handleConsulta} disabled={loading}>
-              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
-              <span className="ml-2">Consultar</span>
-            </Button>
-          </div>
-        </div>
-
-        {error && (
-          <Alert variant="destructive" className="mb-6">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
-
-        {result && !result.found && (
-          <Alert variant="info" className="mb-6">
-            <AlertDescription>
-              No se encontraron registros para esta cédula. Si nunca ha enviado una solicitud, su
-              información aún no está en el sistema.
-            </AlertDescription>
-          </Alert>
-        )}
-
-        {result?.found && result.teacher && (
+        ) : result?.teacher && (
           <div className="space-y-8">
             {/* Teacher info + balance */}
             <div className="rounded-lg border border-border p-6">
@@ -302,4 +253,3 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
     </div>
   );
 }
-

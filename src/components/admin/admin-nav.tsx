@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard, ClipboardList, History,
-  LogOut, Download, Menu, X,
+  LogOut, Download, Menu, X, UserPlus,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ const links = [
   { href: "/admin/acumulaciones/historial", label: "Historial acumulaciones", icon: History },
   { href: "/admin/rebajos", label: "Rebajos", icon: ClipboardList },
   { href: "/admin/rebajos/historial", label: "Historial rebajos", icon: History },
+  { href: "/admin/docentes", label: "Docentes", icon: UserPlus },
   { href: "/admin/exportar", label: "Exportar datos", icon: Download },
 ];
 
